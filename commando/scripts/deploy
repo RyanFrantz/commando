@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo "I deploy things!"
+#exit 1
