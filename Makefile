@@ -83,6 +83,10 @@ endif
 push:
 	$(DOCKER_CMD) push $(AWS_ECR_URL)/$(DOCKER_IMAGE):latest || (cat ~/.ecr/log/ecr-login.log; false)
 
+.PHONY: serve
+serve: venv
+	@python3 server.py
+
 # Run unit tests.
 .PHONY: test
 test: deps testdeps
