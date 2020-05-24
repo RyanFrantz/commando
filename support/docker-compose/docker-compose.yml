@@ -1,0 +1,14 @@
+# 'version' here refers to the Compose config version and is used to validate
+# statements within this file.
+version: "3.5"
+
+# NOTE: Port statements are of the form "<host_port>:<container_port>".
+services:
+  commando:
+    container_name: commando
+    image: 127032180067.dkr.ecr.us-east-2.amazonaws.com/commando
+    ports:
+      - "80:5000"
+    # Mount the dev's local `.aws/` directory in the container.
+    volumes:
+        - ~/.aws:/home/commando/.aws:ro
