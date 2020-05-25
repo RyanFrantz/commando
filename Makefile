@@ -40,9 +40,18 @@ conftest_mac:
 		brew install conftest; \
 	fi
 
+CONFTEST_VERSION := 0.18.2
+CONFTEST_PACKAGE := conftest_$(CONFTEST_VERSION)_Linux_x86_64.tar.gz
 .PHONY: conftest_linux
 conftest_linux:
-	@echo "Coming soon."
+	@if type conftest > /dev/null 2>&1; then \
+		echo "conftest is installed!"; \
+	else \
+		wget https://github.com/instrumenta/conftest/releases/download/v$(CONFTEST_VERSION)/$(CONFTEST_PACKAGE); \
+		tar xzf $(CONFTEST_PACKAGE) conftest; \
+		sudo mv conftest /usr/local/bin; \
+		rm -f $(CONFTEST_PACKAGE); \
+	fi
 
 .PHONY: conftest
 conftest:
