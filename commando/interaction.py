@@ -22,7 +22,8 @@ def run_script(cmd, args):
     # TODO: Eventually we'll implement proper logging here.
     try:
         # NOTE: Do we ever want to use the list form of subprocess.run()?
-        process = subprocess.run(cmd, check=True, capture_output=True)
+        #process = subprocess.run(cmd, check=True, capture_output=True) # Python 3.7
+        process = subprocess.run(cmd, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE) # Python 3.6
         msg = f'status={process.returncode} stdout={process.stdout.decode("utf-8")} stderr={process.stderr.decode("utf-8")}'
         print(msg)
     except subprocess.CalledProcessError as process:
