@@ -29,6 +29,31 @@ else
 	support/circleci/gen_aws_creds.sh
 endif
 
+.PHONY: conftest_mac
+conftest_mac:
+	@if type conftest > /dev/null 2>&1; then \
+		echo "conftest is installed!"; \
+	else \
+		if ! brew tap | grep instrumenta/instrumenta > /dev/null 2>&1; then \
+			brew tap instrumenta/instrumenta; \
+		fi; \
+		brew install conftest; \
+	fi
+
+.PHONY: conftest_linux
+conftest_linux:
+	@echo "Coming soon."
+
+.PHONY: conftest
+conftest:
+ifeq (${THIS_OS},Darwin)
+	@$(MAKE) conftest_mac
+else
+ifeq ($(THIS_OS),Linux)
+	@$(MAKE) conftest_linux
+endif
+endif
+
 PYTHON_REQS := $(shell tr '\n' '\|' < requirements.txt | sed -e 's/|$$//')
 # Install dependencies.
 .PHONY: deps
@@ -91,6 +116,7 @@ serve: deps
 .PHONY: test
 test: deps testdeps
 	python3 -m pytest tests/
+	conftest test Dockerfile
 
 PYTHON_TEST_REQS := $(shell tr '\n' '\|' < test_requirements.txt | sed -e 's/|$$//')
 .PHONY: testdeps
