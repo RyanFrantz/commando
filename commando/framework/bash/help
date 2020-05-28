@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# This function should be overridden by the code sourcing it.
+# It exists here to ensure something is able to answer a help request
+# just in case.
+
+function _help() {
+    # TODO: Call on support to reply to Slack.
+    error "$0 has not defined a _help() function of its own."
+}

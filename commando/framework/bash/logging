@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Support for logging messages to stdout and stderr.
+
+# Logs to stdout.
+# Expects a single argument:
+# $@ - All arguments are considered part of the message.
+function info() {
+    echo $@
+}
+
+# Logs to stderr.
+# Expects a single argument:
+# $@ - All arguments are considered part of the message.
+function error() {
+    echo $@ 1>&2
+}
