@@ -70,6 +70,7 @@ deps: venv
 	@if bash -c "cmp -s <(python3 -m pip freeze | grep -E \"(${PYTHON_REQS})\" | sort) <(sort requirements.txt)"; then \
 		echo "Python packages are installed!"; \
 	else \
+		echo "Installing Python packages..."; \
 		python3 -m pip install --no-cache-dir -r requirements.txt > /dev/null; \
 	fi
 
@@ -133,6 +134,7 @@ testdeps: venv
 	@if bash -c "cmp -s <(python3 -m pip freeze | grep -E \"(${PYTHON_TEST_REQS})\" | sort) <(sort test_requirements.txt)"; then \
 		echo "Python testing packages are installed!"; \
 	else \
+		echo "Installing Python testing packages..."; \
 		python3 -m pip install --no-cache-dir -r test_requirements.txt > /dev/null; \
 	fi
 
