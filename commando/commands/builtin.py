@@ -11,11 +11,7 @@ class BuiltinCommand:
         self.logger    = gen_logger('builtin-commands')
         self.form_data = form_data
 
-    """
-    No command was specified. Prompt the user to list available commands.
-    """
-    def missing_command(self):
-
+    def slack_message(self, msg):
         try:
             api_key = slack_api_key(self.form_data['team_id'])
         # May be one of (at least):
@@ -27,11 +23,10 @@ class BuiltinCommand:
             self.logger.error(msg)
             return
 
-        help_msg = 'No command was specified. Run `/commando list` to see available commands.'
         slack_client = SlackClient(api_key)
-        channel_id = self.form_data['channel_id']
+        channel_id   = self.form_data['channel_id']
         try:
-            slack_client.post_message(channel_id, help_msg)
+            slack_client.post_message(channel_id, msg)
         except errors.SlackResponseError as e:
             exc = str(e)
             channel_name = self.form_data['channel_name']
@@ -42,9 +37,15 @@ class BuiltinCommand:
             self.logger.error(msg)
             return
 
+    """
+    No command was specified. Prompt the user to list available commands.
+    """
+    def missing_command(self):
+        msg = 'No command was specified. Run `/commando list` to see available commands.'
+        self.slack_message(msg)
+
     def help(self):
-        # TODO: Output to Slack.
-        print("I'm here to help!")
+        self.slack_message("I'm here to help!")
 
     """
     A dispatch table that collects all built-in commands that can be run by Commando.
