@@ -1,4 +1,5 @@
 from commando import errors
+from commando.commands.scripts import script_commands
 from commando.slack_client import SlackClient
 from commando.utils import gen_logger, slack_api_key
 
@@ -48,6 +49,18 @@ class BuiltinCommand:
         self.slack_message("I'm here to help!")
 
     """
+    Provide the user with a list of available commands we know about.
+    """
+    def list(self):
+        available_commands = {
+            **BuiltinCommand.commands(),
+            **script_commands()
+        }
+        commands = ', '.join('`' + cmd + '`' for cmd in sorted(available_commands))
+        msg = f'The following commands are available: {commands}'
+        self.slack_message(msg)
+
+    """
     A dispatch table that collects all built-in commands that can be run by Commando.
     This registers our built-in commands in a way that allows us to use a
     BuiltinCommand class to manage behavior while also exporting the functions
@@ -59,6 +72,7 @@ class BuiltinCommand:
     @staticmethod
     def commands():
         builtin_commands = {
-            'help': BuiltinCommand.help
+            'help': BuiltinCommand.help,
+            'list': BuiltinCommand.list
         }
         return builtin_commands
