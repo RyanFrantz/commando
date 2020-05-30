@@ -1,4 +1,5 @@
 from commando import errors
+from commando.slack_client import SlackClient
 from commando.utils import gen_logger, slack_api_key
 
 """

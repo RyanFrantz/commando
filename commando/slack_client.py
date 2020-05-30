@@ -1,6 +1,6 @@
 import json, logging, requests
 from datetime import datetime
-from jelislackapp import errors, utils
+from commando import errors, utils
 
 """
 Encapsulate properties of a client for making requests to Slack.
