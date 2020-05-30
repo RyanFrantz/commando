@@ -1,24 +1,23 @@
 import requests
 from fastapi import APIRouter, Form
 from fastapi.responses import JSONResponse
-from commando.interaction import process_interaction
-from commando.commands.builtin import missing_command
+from commando.commands import process_command
 
 router = APIRouter()
 
 @router.post('/run', tags=['Commando'], summary='Run a command')
-def process_command(channel_id:   str = Form(...),
-                    channel_name: str = Form(...),
-                    command:      str = Form(...),
-                    response_url: str = Form(...),
-                    team_domain:  str = Form(...),
-                    team_id:      str = Form(...),
-                    text:         str = Form(None), # We may not receive anything.
-                    token:        str = Form(...),
-                    trigger_id:   str = Form(...),
-                    user_id:      str = Form(...),
-                    user_name:    str = Form(...),
-                   ):
+def process_interaction(channel_id:   str = Form(...),
+                        channel_name: str = Form(...),
+                        command:      str = Form(...),
+                        response_url: str = Form(...),
+                        team_domain:  str = Form(...),
+                        team_id:      str = Form(...),
+                        text:         str = Form(None), # We may not receive anything.
+                        token:        str = Form(...),
+                        trigger_id:   str = Form(...),
+                        user_id:      str = Form(...),
+                        user_name:    str = Form(...),
+                       ):
 
     """
     'command' here is the Slack slash command, not the command/executable/script
@@ -42,10 +41,7 @@ def process_command(channel_id:   str = Form(...),
         'user_id':      user_id,
         'user_name':    user_name
     }
-    if not text:
-        missing_command(form_data)
-    else:
-        process_interaction(form_data)
+    process_command(form_data)
 
     # Slack API docs indicate we should always at least respond with 200 to
     # indicate receipt.
