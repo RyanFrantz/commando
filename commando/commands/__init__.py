@@ -1,6 +1,6 @@
+import os, inspect, subprocess
 from commando.commands.builtin import BuiltinCommand
 from commando.commands.scripts import script_commands
-import inspect, subprocess
 
 """
 A dispatch table that collects all built-in commands and scripts that can be
@@ -33,7 +33,14 @@ def run_function(cmd, form_data, args):
 Run a script.
 """
 def run_script(cmd, form_data, args):
-    # TODO: Make form_data available to a script in a consistent manner. Maybe env vars?
+    # Copy the parent process's environment (so we don't update it by mistake)
+    # and add the Slack-related form fields as variables to pass to the child
+    # process in case it may use them.
+    env_vars = os.environ.copy()
+    for k,v in form_data.items():
+        key = f'SLACK_{k.upper()}'
+        env_vars[key] = v
+
     # Concatenate the command and arguments, if any.
     if args:
         cmd = f'{cmd} {args}'
@@ -41,8 +48,8 @@ def run_script(cmd, form_data, args):
     # TODO: Eventually we'll implement proper logging here.
     try:
         # NOTE: Do we ever want to use the list form of subprocess.run()?
-        #process = subprocess.run(cmd, check=True, capture_output=True) # Python 3.7
-        process = subprocess.run(cmd, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE) # Python 3.6
+        #process = subprocess.run(cmd, check=True, env=env_vars, capture_output=True) # Python 3.7
+        process = subprocess.run(cmd, check=True, env=env_vars, stdout=subprocess.PIPE, stderr=subprocess.PIPE) # Python 3.6
         msg = f'status={process.returncode} stdout={process.stdout.decode("utf-8")} stderr={process.stderr.decode("utf-8")}'
         print(msg)
     except subprocess.CalledProcessError as process:
@@ -78,8 +85,8 @@ form_data = {
 }
 """
 def process_command(form_data):
+    bc = BuiltinCommand(form_data)
     if not form_data['text']:
-        bc = BuiltinCommand(form_data)
         bc.missing_command()
         return
 
@@ -97,4 +104,5 @@ def process_command(form_data):
     if known_command:
         run(known_command, form_data, args)
     else:
-        print('Command NOT found!')
+        msg = f"Command `{command}` was not found. Run `/commando list` to see available commands."
+        bc.slack_message(msg)
