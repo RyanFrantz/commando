@@ -2,6 +2,7 @@ import requests
 from fastapi import APIRouter, Form
 from fastapi.responses import JSONResponse
 from commando.interaction import process_interaction
+from commando.commands.builtin import missing_command
 
 router = APIRouter()
 
@@ -12,7 +13,7 @@ def process_command(channel_id:   str = Form(...),
                     response_url: str = Form(...),
                     team_domain:  str = Form(...),
                     team_id:      str = Form(...),
-                    text:         str = Form(...),
+                    text:         str = Form(None), # We may not receive anything.
                     token:        str = Form(...),
                     trigger_id:   str = Form(...),
                     user_id:      str = Form(...),
@@ -41,7 +42,11 @@ def process_command(channel_id:   str = Form(...),
         'user_id':      user_id,
         'user_name':    user_name
     }
-    process_interaction(form_data)
+    if not text:
+        missing_command(form_data)
+    else:
+        process_interaction(form_data)
 
-    # Can/should we respond in the command called above?
+    # Slack API docs indicate we should always at least respond with 200 to
+    # indicate receipt.
     return JSONResponse(status_code=200)
