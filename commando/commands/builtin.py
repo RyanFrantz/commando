@@ -2,46 +2,62 @@ from commando import errors
 from commando.slack_client import SlackClient
 from commando.utils import gen_logger, slack_api_key
 
-"""
-No command was specified. Prompt the user to list available commands.
-"""
-def missing_command(form_data: dict):
-    logger = gen_logger('missing-command')
+class BuiltinCommand:
+    """
+    Initialize a logger and save the form data received in the initial
+    Slack interaction.
+    """
+    def __init__(self, form_data: dict):
+        self.logger    = gen_logger('builtin-commands')
+        self.form_data = form_data
 
-    try:
-        api_key = slack_api_key(form_data['team_id'])
-    # May be one of (at least):
-    # * botocore.exceptions.NoCredentialsError (missing AWS credentials)
-    # * botocore.errorfactory.ResourceNotFoundException (secret does not exist)
-    except Exception as e:
-        exc = str(e)
-        msg = f'Failed to retrieve Slack API token from Secrets Manager: {exc}'
-        logger.error(msg)
-        return
+    """
+    No command was specified. Prompt the user to list available commands.
+    """
+    def missing_command(self):
 
-    help_msg = 'No command was specified. Run `/commando list` to see available commands.'
-    slack_client = SlackClient(api_key)
-    channel_id = form_data['channel_id']
-    try:
-        slack_client.post_message(channel_id, help_msg)
-    except errors.SlackResponseError as e:
-        exc = str(e)
-        channel_name = form_data['channel_name']
-        workspace    = form_data['team_name']
-        teamd_id     = form_data['team_id']
-        msg = f"Failed to post message to '{channel_name} (ID: {channel_id}) " \
-               " in workspace {workspace} (ID: {team_id}): {exc}"
-        logger.error(msg)
-        return
+        try:
+            api_key = slack_api_key(self.form_data['team_id'])
+        # May be one of (at least):
+        # * botocore.exceptions.NoCredentialsError (missing AWS credentials)
+        # * botocore.errorfactory.ResourceNotFoundException (secret does not exist)
+        except Exception as e:
+            exc = str(e)
+            msg = f'Failed to retrieve Slack API token from Secrets Manager: {exc}'
+            self.logger.error(msg)
+            return
 
+        help_msg = 'No command was specified. Run `/commando list` to see available commands.'
+        slack_client = SlackClient(api_key)
+        channel_id = self.form_data['channel_id']
+        try:
+            slack_client.post_message(channel_id, help_msg)
+        except errors.SlackResponseError as e:
+            exc = str(e)
+            channel_name = self.form_data['channel_name']
+            workspace    = self.form_data['team_name']
+            teamd_id     = self.form_data['team_id']
+            msg = f"Failed to post message to '{channel_name} (ID: {channel_id}) " \
+                   " in workspace {workspace} (ID: {team_id}): {exc}"
+            self.logger.error(msg)
+            return
 
-def help():
-    # TODO: Output to Slack.
-    print("I'm here to help!")
+    def help(self):
+        # TODO: Output to Slack.
+        print("I'm here to help!")
 
-"""
-A dispatch table that collects all built-in commands hat can be run by Commando.
-"""
-builtin_commands = {
-    'help': help
-}
+    """
+    A dispatch table that collects all built-in commands that can be run by Commando.
+    This registers our built-in commands in a way that allows us to use a
+    BuiltinCommand class to manage behavior while also exporting the functions
+    that back the commands. We expect that whatever uses this table instantiates
+    a BuiltinCommand object and uses getattr() to find the attribute that backs
+    the command. I think there is a better way to do this but this work for the
+    time being.
+    """
+    @staticmethod
+    def commands():
+        builtin_commands = {
+            'help': BuiltinCommand.help
+        }
+        return builtin_commands

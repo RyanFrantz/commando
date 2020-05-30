@@ -1,4 +1,4 @@
-from commando.commands.builtin import builtin_commands, missing_command
+from commando.commands.builtin import BuiltinCommand
 from commando.commands.scripts import script_commands
 import inspect, subprocess
 
@@ -11,24 +11,29 @@ former. Using the double splat (**) is a Pythonic way to pass keyword
 arguments.
 """
 available_commands = {
-    **builtin_commands,
+    **BuiltinCommand.commands(),
     **script_commands()
 }
 
 """
 Run a built-in function.
+We instantiate a BuiltinCommand object and use getattr to find the function
+that backs the command. We can then call the function.
 """
-def run_function(cmd, args):
+def run_function(cmd, form_data, args):
     # TODO: Catch errors
     # Ex. TypeError: help() takes 0 positional arguments but 1 was given
+    bc = BuiltinCommand(form_data)
+    builtin_cmd = getattr(bc, cmd.__name__)
     if args:
-        cmd(args)
+        builtin_cmd(args)
     else:
-        cmd()
+        builtin_cmd()
 """
 Run a script.
 """
-def run_script(cmd, args):
+def run_script(cmd, form_data, args):
+    # TODO: Make form_data available to a script in a consistent manner. Maybe env vars?
     # Concatenate the command and arguments, if any.
     if args:
         cmd = f'{cmd} {args}'
@@ -47,11 +52,11 @@ def run_script(cmd, args):
 """
 Determine if we have a built-in function of a script and run it accordinly.
 """
-def run(cmd, args):
+def run(cmd, form_data, args):
     if inspect.isfunction(cmd):
-        run_function(cmd, args)
+        run_function(cmd, form_data, args)
     else:
-        run_script(cmd, args)
+        run_script(cmd, form_data, args)
 
 """
 Given form data sent by Slack when a slash command was received, determine if
@@ -74,7 +79,8 @@ form_data = {
 """
 def process_command(form_data):
     if not form_data['text']:
-        missing_command(form_data)
+        bc = BuiltinCommand(form_data)
+        bc.missing_command()
         return
 
     # text = 'my_command arg1 arg2 arg3'
@@ -89,6 +95,6 @@ def process_command(form_data):
 
     known_command = available_commands.get(command)
     if known_command:
-        run(known_command, args)
+        run(known_command, form_data, args)
     else:
         print('Command NOT found!')
