@@ -53,6 +53,7 @@ def run_script(cmd, form_data, args):
         msg = f'status={process.returncode} stdout={process.stdout.decode("utf-8")} stderr={process.stderr.decode("utf-8")}'
         print(msg)
     except subprocess.CalledProcessError as process:
+        # FIXME: We should log an error and raise an exception to be handled.
         msg = f'status={process.returncode} stdout={process.stdout.decode("utf-8")} stderr={process.stderr.decode("utf-8")}'
         print(msg)
 
