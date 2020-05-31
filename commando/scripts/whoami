@@ -1,0 +1,15 @@
+#!/usr/bin/env python3
+
+from os.path import join, realpath; from sys import path; path.append(realpath(join(path[0], '..', '..')))
+from commando.framework.python import *
+
+current_user = current_user()
+if current_user:
+    name     = current_user['name'] or current_user['real_name'] or current_user['profile']['real_name'] or current_user['profile']['display_name'] or 'N/A'
+    timezone = current_user['tz_label']
+    image    = current_user['profile']['image_72']
+    msg = f"You are `{name}` and your timezone is {timezone}. " \
+          f"\nYour avatar: {image}"
+    slack_message(msg)
+else:
+    slack_message("Failed to retrieve info on current user.")
