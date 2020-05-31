@@ -43,7 +43,7 @@ def run_script(cmd, form_data, args):
 
     # Concatenate the command and arguments, if any.
     if args:
-        cmd = f'{cmd} {args}'
+        cmd = [cmd, args]
 
     # TODO: Eventually we'll implement proper logging here.
     try:
