@@ -1,4 +1,12 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
-echo "I deploy things!"
-#exit 1
+from os.path import join, realpath; from sys import path; path.append(realpath(join(path[0], '..', '..')))
+from commando.framework.python import *
+
+# Scripts should andle command-line arguments in the way they know best.
+import sys
+if len(sys.argv) > 1:
+    deploy_target = sys.argv[1]
+    slack_message(f'Deploying {deploy_target}!')
+else:
+    slack_message("One day, I'll be Dan's favorite command!")
