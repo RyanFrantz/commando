@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+
+"""
+The below two lines are necessary to provide basic support to scripts.
+These lines locate the commando module relative to this directory and add its
+path to Python's path for resolving modules. Then the framework support is
+imported.
+"""
+from os.path import join, realpath; from sys import path; path.append(realpath(join(path[0], '..', '..')))
+from commando.framework.python import *
+
+info("I can log to stdout")
+error("As well as stderr")
+slack_message("This message from `python-example` brought to you by `commando`!")
+
+print(slack_channel_id())

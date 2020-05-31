@@ -2,6 +2,8 @@
 
 import sys
 
+# TODO: Add more structure (JSON), including timestamps!
+
 """
 Log a message to stdout.
 """

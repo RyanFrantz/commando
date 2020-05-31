@@ -63,7 +63,41 @@ curl \
   localhost:5000/run
 }
 
+function command_not_found() {
+curl \
+  -F 'token=So12345678asdfghjk' \
+  -F 'team_id=TKVN58V5K' \
+  -F 'team_domain=jelitalk' \
+  -F 'channel_id=DKJA3CVU3' \
+  -F 'channel_name=directmessage' \
+  -F 'user_id=UKXHG8T5M' \
+  -F 'user_name=ryan' \
+  -F 'command=%2Fcommando' \
+  -F 'text=not_a_valid_command' \
+  -F 'response_url=https%3A%2F%2Fhooks.slack.com%2Fcommands%2FTKVN58V5K%2F1125858804757%2FrFWbh7OK8JYOkzP9QycvKWsZ' \
+  -F 'trigger_id=1139860966177.675753301189.41b8edc5999f487c4b3ddbdc1b69ee52' \
+  localhost:5000/run
+}
+
+function run_python_example() {
+curl \
+  -F 'token=So12345678asdfghjk' \
+  -F 'team_id=TKVN58V5K' \
+  -F 'team_domain=jelitalk' \
+  -F 'channel_id=DKJA3CVU3' \
+  -F 'channel_name=directmessage' \
+  -F 'user_id=UKXHG8T5M' \
+  -F 'user_name=ryan' \
+  -F 'command=%2Fcommando' \
+  -F 'text=python-example' \
+  -F 'response_url=https%3A%2F%2Fhooks.slack.com%2Fcommands%2FTKVN58V5K%2F1125858804757%2FrFWbh7OK8JYOkzP9QycvKWsZ' \
+  -F 'trigger_id=1139860966177.675753301189.41b8edc5999f487c4b3ddbdc1b69ee52' \
+  localhost:5000/run
+}
+
 #deploy
 #missing_cmd
 #help
-list
+#command_not_found
+#list
+run_python_example
