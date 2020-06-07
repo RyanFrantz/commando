@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Use the value of the SLACK_TEAM_ID environment variable to look up the
+# app API key for that workspace.
+function slack_api_key() {
+    TEAM_ID=${SLACK_TEAM_ID:-TEAM_ID_NOT_SET}
+    SECRET_ID="integrations/slack/${TEAM_ID}"
+    SECRET_RESPONSE="`aws secretsmanager get-secret-value --secret-id $SECRET_ID 2>&1`"
+    if [ $? -ne 0 ]; then
+        error $SECRET_RESPONSE
+        echo ""
+    else
+        # Parse the JSON string into an object and return the key.
+        echo $SECRET_RESPONSE | jq '.SecretString' | jq 'fromjson | .app_api_key' | tr -d '"'
+    fi
+}

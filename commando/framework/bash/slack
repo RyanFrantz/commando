@@ -1,0 +1,25 @@
+#!/bin/bash
+
+function curl_slack() {
+    API_KEY=$(slack_api_key)
+    SLACK_BASE_URL="https://slack.com/api"
+    PATH_AND_PARAMS="${1}&token=${API_KEY}"
+    FULL_URL=${SLACK_BASE_URL}/${PATH_AND_PARAMS}
+    curl -s -X POST \
+        -H "Content-Type: application/json" \
+        $FULL_URL
+}
+
+function slack_message() {
+    MSG=$1
+    CHANNEL_ID=$2
+    URL="chat.postMessage?channel=${CHANNEL_ID}&text=${MSG}"
+    curl_slack $URL
+}
+
+function current_user() {
+    USER_ID=${SLACK_USER_ID:-SLACK_USER_ID_NOT_SET}
+    URL="users.info?user=${USER_ID}"
+    USER_INFO=$(curl_slack $URL)
+    echo $USER_INFO
+}

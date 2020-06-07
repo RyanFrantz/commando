@@ -3,8 +3,10 @@
 # Locate ourselves
 #THIS_DIR=$(realpath $BASH_SOURCE) # Not a command on OSX.
 THIS_DIR=$(dirname $BASH_SOURCE) # We've been sourced so we can't use $0.
-source ${THIS_DIR}/logging
 source ${THIS_DIR}/help
+source ${THIS_DIR}/logging
+source ${THIS_DIR}/slack
+source ${THIS_DIR}/utils
 alias help="_help"
 
 function command_log() {
