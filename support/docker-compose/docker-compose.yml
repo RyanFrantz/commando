@@ -8,7 +8,7 @@ services:
     container_name: commando
     image: 127032180067.dkr.ecr.us-east-2.amazonaws.com/commando
     ports:
-      - "80:5000"
+      - "5000:5000"
     # Mount the dev's local `.aws/` directory in the container.
     volumes:
         - ~/.aws:/home/commando/.aws:ro
