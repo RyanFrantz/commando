@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Import our helper functions.
+source $(dirname $0)/../framework/bash/init
+
+USER_INFO=$(current_user)
+TZ=$(echo $USER_INFO | jq .user.tz | tr -d '"') # America/New_York
+TZ_LOCATION=$(echo $TZ | sed -e 's!^[a-zA-Z]\+/!!') # New_York
+# New_York: Sunny☀️  +75°F ↘0mph
+WEATHER=$(curl -s wttr.in/${TZ_LOCATION}?format="%l:+%C%c%20%20%t%20%w")
+MSG="Your time zone is *${TZ}* so here's the weather for *${TZ_LOCATION}*:"
+MSG="${MSG}\n${WEATHER}"
+MSG=$(echo -e $MSG) # Interpret the newlines.
+MSG=$(urlencode "$MSG") # Because spaces and unicode 'n stuff.
+slack_message $SLACK_CHANNEL_ID "$MSG"
