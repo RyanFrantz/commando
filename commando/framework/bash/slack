@@ -5,16 +5,18 @@ function curl_slack() {
     SLACK_BASE_URL="https://slack.com/api"
     PATH_AND_PARAMS="${1}&token=${API_KEY}"
     FULL_URL=${SLACK_BASE_URL}/${PATH_AND_PARAMS}
-    curl -s -X POST \
+    RESPONSE=$(curl -s -X POST \
         -H "Content-Type: application/json" \
-        $FULL_URL
+        $FULL_URL)
+    echo $RESPONSE
 }
 
 function slack_message() {
-    MSG=$1
-    CHANNEL_ID=$2
+    CHANNEL_ID=$1
+    shift
+    MSG=$@
     URL="chat.postMessage?channel=${CHANNEL_ID}&text=${MSG}"
-    curl_slack $URL
+    OUTPUT=$(curl_slack $URL) # Shall we log this?
 }
 
 function current_user() {
