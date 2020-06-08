@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Import our helper functions.
+source $(dirname $0)/../framework/bash/init
+
+MSG=""
+for TZ in "Etc/UTC" "America/New_York" "America/Los_Angeles"; do
+    DATETIME=$(curl -s "http://worldtimeapi.org/api/timezone/${TZ}")
+    ABBREV=$(echo $DATETIME | jq .abbreviation | tr -d '"')
+    TIME=$(echo $DATETIME | jq .datetime | tr -d '"' | awk -FT '{print $2}' | awk -F. '{print $1}')
+    MSG="${MSG}${TIME} ${ABBREV}\n"
+done
+MSG=$(echo -e $MSG) # Interpret the newlines.
+MSG=$(urlencode "$MSG")
+slack_message $SLACK_CHANNEL_ID "$MSG"
