@@ -12,13 +12,7 @@ def create_app():
 
     @app.get('/')
     def welcome():
-        movie_quotes = [
-            "You know what I like best about this car? The price.",
-            "Don't disturb my friend, he's dead tired.",
-            "Let off some steam Bennett."
-        ]
-        index = random.randint(0,len(movie_quotes) -1)
-        return {'msg': movie_quotes[index]}
+        return {'msg': "Run commands with commando!"}
 
     route_files = glob.glob(join('routes', "*.py"))
     modules = [basename(f)[:-3] for f in route_files if isfile(f) and not f.endswith('__init__.py')]
