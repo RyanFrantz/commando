@@ -2,7 +2,7 @@ import json, mock
 from commando import errors
 
 """
-Test the routes for the Jeli Commando Slack app.
+Test the routes for the Commando Slack app.
 """
 
 def test_commando(client, run_form):

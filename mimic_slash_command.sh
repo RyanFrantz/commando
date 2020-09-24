@@ -5,7 +5,7 @@ curl \
   -F 'channel_id=DKJA3CVU3' \
   -F 'token=So12345678asdfghjk' \
   -F 'team_id=TKVN58V5K' \
-  -F 'team_domain=jelitalk' \
+  -F 'team_domain=my_slack_team' \
   -F 'channel_name=directmessage' \
   -F 'user_id=UKXHG8T5M' \
   -F 'user_name=ryan' \
@@ -21,7 +21,7 @@ curl \
   -F 'channel_id=DKJA3CVU3' \
   -F 'token=So12345678asdfghjk' \
   -F 'team_id=TKVN58V5K' \
-  -F 'team_domain=jelitalk' \
+  -F 'team_domain=my_slack_team' \
   -F 'channel_name=directmessage' \
   -F 'user_id=UKXHG8T5M' \
   -F 'user_name=ryan' \
@@ -36,7 +36,7 @@ function missing_cmd() {
 curl \
   -F 'token=So12345678asdfghjk' \
   -F 'team_id=TKVN58V5K' \
-  -F 'team_domain=jelitalk' \
+  -F 'team_domain=my_slack_team' \
   -F 'channel_id=DKJA3CVU3' \
   -F 'channel_name=directmessage' \
   -F 'user_id=UKXHG8T5M' \
@@ -51,7 +51,7 @@ function help() {
 curl \
   -F 'token=So12345678asdfghjk' \
   -F 'team_id=TKVN58V5K' \
-  -F 'team_domain=jelitalk' \
+  -F 'team_domain=my_slack_team' \
   -F 'channel_id=DKJA3CVU3' \
   -F 'channel_name=directmessage' \
   -F 'user_id=UKXHG8T5M' \
@@ -67,7 +67,7 @@ function list() {
 curl \
   -F 'token=So12345678asdfghjk' \
   -F 'team_id=TKVN58V5K' \
-  -F 'team_domain=jelitalk' \
+  -F 'team_domain=my_slack_team' \
   -F 'channel_id=DKJA3CVU3' \
   -F 'channel_name=directmessage' \
   -F 'user_id=UKXHG8T5M' \
@@ -83,7 +83,7 @@ function command_not_found() {
 curl \
   -F 'token=So12345678asdfghjk' \
   -F 'team_id=TKVN58V5K' \
-  -F 'team_domain=jelitalk' \
+  -F 'team_domain=my_slack_team' \
   -F 'channel_id=DKJA3CVU3' \
   -F 'channel_name=directmessage' \
   -F 'user_id=UKXHG8T5M' \
@@ -99,7 +99,7 @@ function run_python_example() {
 curl \
   -F 'token=So12345678asdfghjk' \
   -F 'team_id=TKVN58V5K' \
-  -F 'team_domain=jelitalk' \
+  -F 'team_domain=my_slack_team' \
   -F 'channel_id=DKJA3CVU3' \
   -F 'channel_name=directmessage' \
   -F 'user_id=UKXHG8T5M' \
@@ -115,7 +115,7 @@ function whoami() {
 curl \
   -F 'token=So12345678asdfghjk' \
   -F 'team_id=TKVN58V5K' \
-  -F 'team_domain=jelitalk' \
+  -F 'team_domain=my_slack_team' \
   -F 'channel_id=DKJA3CVU3' \
   -F 'channel_name=directmessage' \
   -F 'user_id=UKXHG8T5M' \
@@ -131,7 +131,7 @@ function weather() {
 curl \
   -F 'token=So12345678asdfghjk' \
   -F 'team_id=TKVN58V5K' \
-  -F 'team_domain=jelitalk' \
+  -F 'team_domain=my_slack_team' \
   -F 'channel_id=DKJA3CVU3' \
   -F 'channel_name=directmessage' \
   -F 'user_id=UKXHG8T5M' \
@@ -148,7 +148,7 @@ function call_time() {
 curl \
   -F 'token=So12345678asdfghjk' \
   -F 'team_id=TKVN58V5K' \
-  -F 'team_domain=jelitalk' \
+  -F 'team_domain=my_slack_team' \
   -F 'channel_id=DKJA3CVU3' \
   -F 'channel_name=directmessage' \
   -F 'user_id=UKXHG8T5M' \

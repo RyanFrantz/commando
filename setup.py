@@ -32,14 +32,14 @@ def additional_modules():
 
 setup(
     author                        = 'Ryan Frantz',
-    author_email                  = 'ryan@jeli.io',
+    author_email                  = 'ryanleefrantz@gmail.com',
     classifiers                   = project_classifiers,
-    description                   = "Jeli's Commando Slack App",
+    description                   = "Commando Slack App",
     install_requires              = additional_modules(),
     long_description              = long_description,
     long_description_content_type = 'text/markdown',
     name                          = 'commando',
     packages                      = find_packages(),
-    url                           = 'https://github.com/Jeli-Inc/commando',
+    url                           = 'https://github.com/RyanFrantz/commando',
     version                       = version,
 )

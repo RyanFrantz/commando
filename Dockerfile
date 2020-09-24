@@ -1,11 +1,11 @@
 FROM ubuntu:18.04
 LABEL name        "commando"
-LABEL maintainer  "Jeli, Inc."
-LABEL description "A container from which to run Jeli's Commando Slack App."
-LABEL summary     "Run Jeli's Commando Slack App."
+LABEL maintainer  "Ryan Frantz"
+LABEL description "A container from which to run Commando Slack App."
+LABEL summary     "Run Commando Slack App."
 LABEL release     ""
 LABEL version     ""
-LABEL vendor      "Jeli, Inc."
+LABEL vendor      "Ryan Frantz"
 RUN groupadd -r commando && useradd -d /home/commando -m -r -g commando commando
 # Automatically creates the directory.
 WORKDIR /commando

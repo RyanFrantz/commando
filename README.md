@@ -1,6 +1,6 @@
 # Commando
 
-Jeli's Commando Slack App
+The Commando Slack App
 
 ## Running the Service
 

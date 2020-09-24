@@ -20,7 +20,7 @@ def gen_logger(service_type='generic'):
 
 """
 Given a Slack team ID (identifies a workspace), attempt to look up the API key
-we have for our app. This assumes the Jeli Slack app has been authorized to
+we have for our app. This assumes the Slack app has been authorized to
 operate within the given workspace and that we've successfully stored the
 app's API key following the authorization process.
 """

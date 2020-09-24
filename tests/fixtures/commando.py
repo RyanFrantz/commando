@@ -8,8 +8,8 @@ def run_form():
     """
     form_body = {
         'token':        'So12345678asdfghjk',
-        'team_id':      'TEAMJELI1',
-        'team_domain':  'jelitalk',
+        'team_id':      'TEAMRYAN1',
+        'team_domain':  'my_slack_team',
         'channel_id':   'DREAMBIG',
         'channel_name': 'directmessage',
         'user_id':      'UFGUTHD2M',
